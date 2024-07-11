@@ -17,6 +17,7 @@
 #include <open3d/geometry/Qhull.h>
 #include <open3d/geometry/TriangleMesh.h>
 #include <open3d/utility/Console.h>
+#include <open3d/utility/ProgressBar.h>
 #include <open3d/utility/Eigen.h>
 
 #include "tloam/open3d/PointCloud2.hpp"
@@ -53,8 +54,8 @@ AxisAlignedBoundingBox PointCloud2::GetAxisAlignedBoundingBox() const {
     return AxisAlignedBoundingBox::CreateFromPoints(points_);
 }
 
-OrientedBoundingBox PointCloud2::GetOrientedBoundingBox() const {
-    return OrientedBoundingBox::CreateFromPoints(points_);
+OrientedBoundingBox PointCloud2::GetOrientedBoundingBox(bool robust) const {
+    return OrientedBoundingBox::CreateFromPoints(points_, robust);
 }
 
 PointCloud2 & PointCloud2::Transform(const Eigen::Matrix4d &transformation) {
@@ -1238,7 +1239,7 @@ std::vector<int> PointCloud2::ClusterDBSCAN(double eps, size_t min_points, bool 
 
     // Precompute all neighbors.
     utility::LogDebug("Precompute neighbors.");
-    utility::ConsoleProgressBar progress_bar(
+    utility::OMPProgressBar progress_bar(
             points_.size(), "Precompute neighbors.", print_progress);
     std::vector<std::vector<int>> nbs(points_.size());
 #pragma omp parallel for schedule(static)
