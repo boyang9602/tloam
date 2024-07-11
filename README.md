@@ -80,33 +80,11 @@ cmake [-G generator] [-DYAML_BUILD_SHARED_LIBS=ON] ..
 make 
 sudo make install
 ```
--[Open3D](http://www.open3d.org/)(A Modern Library for 3D Data Processing 0.12.0)
+-[Open3D](http://www.open3d.org/)(A Modern Library for 3D Data Processing 0.15.0)
 
-Please note that open3d installation will be a slightly troublesome process, please be patient. Another problem that needs attention is that Open3D-ML cannot be used in ROS at the same time due to the link [error2286](https://github.com/intel-isl/Open3D/issues/2286) and [error3432](https://github.com/intel-isl/Open3D/issues/3432). In order to fix this, you need to specify the cmake flag `-DGLIBCXX_USE_CXX11_ABI=ON`. However, the latest Tensorflow2.4 installed through conda(not pip) already supports the C++11 API, you can check the API with `print(tensorflow.__cxx11_abi_flag__)`. If the flag is true, you can set the compile flag `-DBUILD_TENSORFLOW_OPS=ON`  Next, you can complete the installation according to the [instructions](http://www.open3d.org/docs/release/compilation.html#)
+You can complete the installation according to the [instructions](http://www.open3d.org/docs/release/compilation.html#) or  
+download the pre-compiled open3d https://github.com/isl-org/Open3D/releases/tag/v0.15.1.  
 
-```bash
-cd Open3D
-util/scripts/install-deps-ubuntu.sh
-mkdir build && cd build 
-cmake \
-    -DBUILD_SHARED_LIBS=ON \
-    -DPYTHON_EXECUTABLE=$(which python3) \
-    -DBUILD_CUDA_MODULE=ON \
-    -DGLIBCXX_USE_CXX11_ABI=ON \
-    -DBUILD_LIBREALSENSE=ON  \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr/local \
-    -DBUILD_PYTORCH_OPS=OFF \
-    -DBUILD_TENSORFLOW_OPS=OFF \
-    -DBUNDLE_OPEN3D_ML=ON \
-    -DOPEN3D_ML_ROOT=${replace with own Open3D-ML path} \
-    ../
-make -j4
-sudo make install 
-```
-If you have clone problems, you can download it directly from the link below.
-
-[Baidu Disk](https://pan.baidu.com/s/1SLXcHEy98TuykWbnzrQIYg) code: khy9 or [Google Drive](https://drive.google.com/file/d/1EYdIFMOIMtft5IOCdxdnX0N90XzVy9cE/view?usp=sharing) 
 
 -[Ceres Solver](http://ceres-solver.org/)(A large scale non-linear optimization library 2.0)
 you can complete the installation according to the [guide](http://www.ceres-solver.org/installation.html)
